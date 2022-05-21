@@ -5,7 +5,7 @@ const file = path.join(__dirname, 'text.txt');
 const stream = fs.WriteStream(file);
 const process = require('process');
 
-process.stdout.write('Привет, это тест, пиши для сохранения?\n');
+process.stdout.write('Привет, это тест, пиши для сохранения\n');
 
 process.stdin.on('data', input => {
   if (input.toString().trim() === 'exit') process.exit();
