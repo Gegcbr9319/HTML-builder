@@ -5,14 +5,18 @@ const fs = require('fs/promises');
 const filess = path.join(__dirname, 'files');
 const filesCopy = path.join(__dirname, 'files-copy');
 
-async function copyDir(){
-  await fs.mkdir(filesCopy,{recursive:true});
-  const files =  await fs.readdir(filess,{withFileTypes:true});
+async function copyDir(copy, past){
+  await fs.mkdir(past,{recursive:true});
+  const files =  await fs.readdir(copy,{withFileTypes:true});
   files.forEach( async file => {
+    const a = `${copy}/${file.name}`;
+    const b = `${past}/${file.name}`;
     if (await file.isFile()) {
-      const a = `${filess}/${file.name}`;
-      const b = `${filesCopy}/${file.name}`;
+      
       await fs.copyFile(a,b);
+    }
+    else{
+      copyDir(a, b);
     }
     
   });    
@@ -28,7 +32,7 @@ async function delDir(){
 async function create(){
   
   await delDir();
-  await copyDir(); 
+  await copyDir(filess, filesCopy); 
 }
 
 create(); 
